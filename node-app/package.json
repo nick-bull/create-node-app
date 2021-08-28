@@ -44,8 +44,10 @@
     "lint:files": "npm run eslint | grep ^[\\w/].*\\.js",
     "test": "NODE_OPTIONS='--experimental-vm-modules' jest --verbose --coverage --passWithNoTests",
     "test:coverage": "npm test && open ./coverage/lcov-report/index.html",
-    "test:update": "npm test --updateSnapshot",
-    "test:watch": "npm test -- --watch"
+    "test:update": "npm test -- --updateSnapshot",
+    "test:watch": "npm test -- --watch",
+    "tf:apply": "terraform apply -auto-approve",
+    "tf:destroy": "terraform destroy -auto-approve"
   },
   "dependencies": {},
   "devDependencies": {
