@@ -1,0 +1,5 @@
+APP_SCOPE=nick-bull
+AUTHOR_USERNAME=nick-bull
+AUTHOR_URL=https://bull.dev
+AUTHOR_NAME=Nick Bull
+AUTHOR_EMAIL=nick@bull.dev

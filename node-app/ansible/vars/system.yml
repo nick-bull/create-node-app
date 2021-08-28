@@ -1,0 +1,12 @@
+CTOP_VERSION: "0.7.3"
+DOCKER_COMPOSE_VERSION: "1.25.1"
+DOCKER_PACKAGES:
+  - python3-pip
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - gnupg-agent
+  - software-properties-common
+DOCKER_PIP_PACKAGES:
+  - docker-py
+

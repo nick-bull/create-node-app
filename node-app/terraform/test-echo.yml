@@ -1,0 +1,8 @@
+---
+- name: Test using echo
+  hosts: localhost
+
+  tasks:
+    - name: Hello
+      debug:
+

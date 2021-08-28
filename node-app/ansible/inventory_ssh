@@ -1,0 +1,14 @@
+#!/bin/sh
+
+ansible_dir="$(dirname "$0")"
+
+__inventory_yq() {
+  yq e "$@" "${ansible_dir}/inventory.yml"
+}
+
+ansible_ssh_host="$(__inventory_yq '.remote.hosts')"
+ansible_ssh_user="$(__inventory_yq '.remote.vars.ansible_ssh_user')"
+ansible_ssh_key_path="$(__inventory_yq '.remote.vars.ansible_ssh_private_key_file')"
+
+ssh "${ansible_ssh_user}"@"${ansible_ssh_host}" -i "${ansible_ssh_key_path}" "$@"
+

@@ -1,0 +1,7 @@
+APP_NAME=test
+APP_DESCRIPTION=Test description
+APP_SCOPE=nick-bull
+GITHUB_USER=nick-bull
+AUTHOR_URL="https://bull.dev"
+AUTHOR_NAME="Nick Bull"
+AUTHOR_EMAIL="nick@bull.dev"

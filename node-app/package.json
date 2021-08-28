@@ -1,0 +1,73 @@
+{
+  "name": "@<<PACKAGE_SCOPE>>/<<PACKAGE_NAME>>",
+  "type": "module",
+  "main": "./src/index.js",
+  "imports": {
+    "#root": "./src",
+    "#root/*": "./src/*"
+  },
+  "exports": {
+    "import": "./src/index.js",
+    "require": "./lib/index.js"
+  },
+  "description": "<<PACKAGE_DESCRIPTION>>",
+  "version": "0.0.0",
+  "author": {
+    "name": "<<AUTHOR_NAME>>",
+    "username": "<<AUTHOR_USERNAME>>",
+    "email": "<<AUTHOR_EMAIL>>",
+    "url": "<<AUTHOR_URL>>"
+  },
+  "license": "MIT",
+  "licenseFilename": "LICENSE",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/<<AUTHOR_USERNAME>>/<<PACKAGE_NAME>>.git",
+    "baseUrl": "git+https://github.com/<<AUTHOR_USERNAME>>"
+  },
+  "bugs": {
+    "url": "https://github.com/<<AUTHOR_USERNAME>>/<<PACKAGE_NAME>>/issues"
+  },
+  "homepage": "https://github.com/<<AUTHOR_USERNAME>>/<<PACKAGE_NAME>>#readme",
+  "scripts": {
+    "build": "NODE_OPTIONS=--experimental-json-modules babel src --out-dir lib",
+    "dev": "node --experimental-json-modules --es-module-specifier-resolution=node src/index.js",
+    "start": "node lib/index.js",
+    "gh:push": "git push -u origin master",
+    "prepublishOnly": "npm run build",
+    "publish:public": "npm publish --access public",
+    "publish:patch": "npm run lint && npm version patch && npm run publish:public",
+    "publish:minor": "npm run lint && npm version minor && npm run publish:public",
+    "publish:major": "npm run lint && npm version major && npm run publish:public",
+    "lint": "npx eslint **/src/**/*.js --fix",
+    "lint:files": "npm run eslint | grep ^[\\w/].*\\.js",
+    "test": "NODE_OPTIONS='--experimental-vm-modules' jest --verbose --coverage --passWithNoTests",
+    "test:coverage": "npm test && open ./coverage/lcov-report/index.html",
+    "test:update": "npm test --updateSnapshot",
+    "test:watch": "npm test -- --watch"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/cli": "^7.13.10",
+    "@babel/core": "^7.13.10",
+    "@babel/plugin-transform-runtime": "^7.13.10",
+    "@babel/preset-env": "^7.13.10",
+    "@babel/runtime": "^7.13.10",
+    "babel-jest": "^26.6.3",
+    "babel-plugin-module-resolver": "^4.1.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.4",
+    "jest": "^26.6.3",
+    "prettier": "^2.2.1"
+  },
+  "jest": {
+    "testEnvironment": "jest-environment-node",
+    "transform": {},
+    "testMatch": [
+      "<rootDir>/tests/**/*.[jt]s?(x)"
+    ],
+    "rootDir": "."
+  }
+}
