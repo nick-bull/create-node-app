@@ -11,6 +11,30 @@ ansible/inventory.yml
 [._]ss[a-gi-z]
 [._]sw[a-p]
 
+# [Docker](https://github.com/atlassian/docker/blob/master/.gitignore)
+.vagrant*
+bin
+docker/docker
+.*.swp
+a.out
+*.orig
+build_src
+.flymake*
+.idea
+.DS_Store
+docs/_build
+docs/_static
+docs/_templates
+.gopath/
+.dotcloud
+*.test
+bundles/
+.hg/
+.git/
+vendor/pkg/
+pyenv
+Vagrantfile
+
 # [Node](https://github.com/github/gitignore)
 #   Logs
 logs
