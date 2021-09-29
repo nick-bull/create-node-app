@@ -6,10 +6,10 @@ __path_resolve() ( # Execute the function in a subshell to localize side effects
   { \unalias command; \unset -f command; } >/dev/null 2>&1
 
   # make zsh find *builtins* with `command` too.
-  test -n "$ZSH_VERSION" && options[POSIX_BUILTINS]=on 
+  test -n "$ZSH_VERSION" && options[POSIX_BUILTINS]=on
 
   while :; do # Resolve potential symlinks until the ultimate target is found.
-      if ! test -L "$target" && ! test -e "$target"; then 
+      if ! test -L "$target" && ! test -e "$target"; then
         command printf '%s\n' "ERROR: '$target' does not     exist." >&2;
         return 1;
       fi
@@ -53,6 +53,32 @@ script_name="$(__path_resolve "$0")"
 script_dir="$(dirname "${script_name}")"
 app_dir="$(dirname "${script_dir}")"
 app_parent_dir="$(dirname "${app_dir}")"
+config_path="${script_dir}/config.txt"
+
+for config_variable in "APP_NAME" "APP_SCOPE" "AUTHOR_USERNAME"; do
+  if ! grep -q "^${config_variable}=.\{1,\}" "${config_path}"; then
+    echo "Configuration variable '${config_variable}' must be set in '${config_path}"
+    exit 1
+  fi
+done
+
+if ! grep -q "^APP_URL=.\{1,\}" "${config_path}"; then
+  cat "${config_path}"
+
+  echo "Configuration variable 'APP_URL' is not set in '${config_path}'"
+  echo "This will cause errors when running Ansible"
+
+  printf "Continue? [y/N]: "
+  read answer
+  case "$answer" in
+    y|Y) ;;
+    *)
+      echo "Aborted"
+      exit 1
+
+      ;;
+  esac
+fi
 
 while IFS="" read -r line || [ -n "$line" ]; do
   conf_variable="${line%%=*}"
@@ -63,11 +89,12 @@ while IFS="" read -r line || [ -n "$line" ]; do
   test "${conf_variable}" = "APP_DESCRIPTION" && app_description="${conf_value}"
   test "${conf_variable}" = "AUTHOR_USERNAME" && author_username="${conf_value}"
 
-  echo "Replacing '<<${conf_variable}>>' with '${conf_value}'"
-  
-  find "${app_dir}" -type f \
-    -exec sed -i 's|<<'"${conf_variable}"'>>|'"${conf_value}"'|g' {} \;
-done < "${script_dir}"/config.txt
+  echo "Replacing '{{${conf_variable}}}' with '${conf_value}'"
+
+  find "${app_dir}" -type f -exec sed -i 's|{{'"${conf_variable}"'}}|'"${conf_value}"'|g' {} \;
+done < "${config_path}"
+
+find "${app_dir}" -type f -exec sed -i 's|{{APP_PWD}}|'"${app_dir}"'|g' {} \;
 
 new_app_dir="${app_parent_dir}/${app_name}"
 
